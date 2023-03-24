@@ -1,0 +1,1 @@
+*This program is meant to solve math problems similar to TedEd's Cat Riddle
