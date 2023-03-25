@@ -12,10 +12,10 @@ However, the computer can only do three operations:
  - Add 7
  - Square root the current number
 
-On top of that, it cannot output a number.
+On top of that, it cannot output a number:
  - Bigger than 60
  - More than once
- - A non-integer number
+ - That is not an integer
 
 ---
 
