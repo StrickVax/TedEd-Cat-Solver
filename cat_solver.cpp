@@ -8,6 +8,8 @@ void Solver(vector<int>, vector<int> &);
 
 void solutionPrinter(vector<int> &);
 
+bool validResult(double);
+
 int main()
 {
     vector<int> numbersNeeded{2, 10, 14};
@@ -22,7 +24,7 @@ int main()
 
 void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
 {
-    int currentNumber = 0;
+    double currentNumber = 0;
     // the flag is to become false if the number fails any of these conditions:
     // --A number appears more than once
     // --A number is larger than 60
@@ -32,6 +34,21 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     {
         solutionPath.push_back(0);
         currentNumber += 5;
+        validResult(currentNumber);
+    }
+}
+
+bool validResult(double result)
+{
+    // TODO: need to make sure number hasn't been repeated
+    if ((result <= 60) || ((int)result == result))
+    {
+        return false;
+    }
+    else
+    {
+        // record result somewhere
+        return true;
     }
 }
 
@@ -42,7 +59,7 @@ void solutionPrinter(vector<int> &orderOfOperations)
     {
         cout << orderOfOperations[i];
         // adds an arrow pointing to the next number, if it's not the last one in the list
-        if (i != orderOfOperations.size() - 1 )
+        if (i != orderOfOperations.size() - 1)
         {
             cout << " -> ";
         }
