@@ -4,10 +4,13 @@
 
 using namespace std;
 
+// Main function that tests to see if a number can be reached with operations
 void Solver(vector<int>, vector<int> &);
 
+// Prints out the numbers used to get to the results
 void solutionPrinter(vector<int> &);
 
+// Tests to see if the current number is valid
 bool validResult(double, vector<int> &);
 
 int main()
@@ -44,6 +47,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
     // TODO: need to make sure number hasn't been repeated
     for (int i = 0; i < numbersAlreadyUsed.size(); i++)
     {
+        // Maybe sort numbers at one point? Especially if the number of tries gets [ big ]
         if (result == numbersAlreadyUsed[i])
         {
             return false;
@@ -64,6 +68,12 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
 
 void solutionPrinter(vector<int> &orderOfOperations)
 {
+    // if the program was unable to find a solution with the given parameters
+    if (orderOfOperations.size() == 0)
+    {
+        cout << "No solution exists";
+    }
+
     // program prints out operations
     for (int i = 0; i < orderOfOperations.size(); i++)
     {
