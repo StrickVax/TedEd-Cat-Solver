@@ -34,7 +34,7 @@ The program keeps track of the moves done with a vector. Every time it makes a m
 ```
 
 ```
-// ...5 -> 10 -> 17 -> \sqrt{17}
+// ...5 -> 10 -> 17 -> sqrt(17)
 
 ...[0, 0, 1, 2]
 ```
