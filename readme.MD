@@ -23,6 +23,24 @@ On top of that, it cannot output a number.
 
 The program is a Depth-first search. It will attempt to repeat the same operation until it un-satisfies a requirement or finds the solution. If it finds a wrong path, it will backtrack until it can attempt a different operation, and then do so.
 
+The program keeps track of the moves done with a vector. Every time it makes a move, it adds a new entry, [0], which stands for [Add 5]. If it must go back, it replaces the previous entry with the proceeding number; [1] or [2].
+
+```
+[0] -- Add 5
+
+[1] -- Add 7
+
+[2] -- Square root
+```
+
+```
+// ...5 -> 10 -> 17 -> \sqrt{17}
+
+...[0, 0, 1, 2]
+```
+
+If it still breaks the rules, it will go back two elements, and replace the current element.
+
 ---
 
 ## Task List:
