@@ -8,7 +8,7 @@ void Solver(vector<int>, vector<int> &);
 
 void solutionPrinter(vector<int> &);
 
-bool validResult(double);
+bool validResult(double, vector<int> &);
 
 int main()
 {
@@ -25,6 +25,7 @@ int main()
 void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
 {
     double currentNumber = 0;
+    vector<int> numbersAlreadyUsed;
     // the flag is to become false if the number fails any of these conditions:
     // --A number appears more than once
     // --A number is larger than 60
@@ -34,11 +35,11 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     {
         solutionPath.push_back(0);
         currentNumber += 5;
-        validResult(currentNumber);
+        validResult(currentNumber, numbersAlreadyUsed);
     }
 }
 
-bool validResult(double result)
+bool validResult(double result, vector<int> &numbersAlreadyUsed)
 {
     // TODO: need to make sure number hasn't been repeated
     if ((result <= 60) || ((int)result == result))
