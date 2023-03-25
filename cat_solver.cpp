@@ -42,13 +42,22 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
 bool validResult(double result, vector<int> &numbersAlreadyUsed)
 {
     // TODO: need to make sure number hasn't been repeated
+    for (int i = 0; i < numbersAlreadyUsed.size(); i++)
+    {
+        if (result == numbersAlreadyUsed[i])
+        {
+            return false;
+        }
+    }
+
+    // Checks to see if other two conditions are still being satisfied
     if ((result <= 60) || ((int)result == result))
     {
         return false;
     }
     else
     {
-        // record result somewhere
+        numbersAlreadyUsed.push_back(result);
         return true;
     }
 }
