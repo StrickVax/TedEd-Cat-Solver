@@ -1,0 +1,7 @@
+# Stuff to hide:
+
+# Compiled version of the code
+/cat_solver.exe
+
+# VS code quirks
+/.vscode
