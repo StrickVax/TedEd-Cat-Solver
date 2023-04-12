@@ -19,9 +19,9 @@ bool alreadyUsedNumber(double, vector<int> &);
 int main()
 {
     vector<int> numbersNeeded{2, 10, 14};
-    vector<int> solutionPath{};
+    vector<int> solutionPath{0,0,0,0,0,2};
 
-    Solver(numbersNeeded, solutionPath);
+    // Solver(numbersNeeded, solutionPath);
 
     solutionPrinter(solutionPath);
 
@@ -85,10 +85,27 @@ void solutionPrinter(vector<int> &orderOfOperations)
         cout << "No solution exists";
     }
 
+    int currentNumber = 0;
+
     // program prints out operations
     for (int i = 0; i < orderOfOperations.size(); i++)
     {
-        cout << orderOfOperations[i];
+        switch (orderOfOperations[i])
+        {
+        case 0:
+            currentNumber += 5;
+            break;
+        
+         case 1:
+            currentNumber += 7;
+            break;
+
+        case 2:
+            currentNumber = sqrt(currentNumber);
+            break;
+        }
+
+        cout << currentNumber;
         // adds an arrow pointing to the next number, if it's not the last one in the list
         if (i != orderOfOperations.size() - 1)
         {
