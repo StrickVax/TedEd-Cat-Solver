@@ -32,6 +32,10 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
 {
     double currentNumber = 0;
     vector<int> numbersAlreadyUsed;
+
+    // the input is recorded by a 0/1/2, which this variable does
+    int solutionRecorder = 0;
+
     // the flag is to become false if the number fails any of these conditions:
     // --A number appears more than once
     // --A number is larger than 60
@@ -39,11 +43,18 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     bool flag = true;
     while (flag == true)
     {
-        solutionPath.push_back(0);
+        solutionPath.push_back(solutionRecorder);
         currentNumber += 5;
         if (validResult(currentNumber, numbersAlreadyUsed))
         {
-            cout << "uh";
+        }
+        else if (solutionRecorder <= 2)
+        {
+            solutionRecorder += 1;
+        }
+        else
+        {
+            flag = false;
         }
     }
 }
