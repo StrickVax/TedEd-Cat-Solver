@@ -47,14 +47,25 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     bool flag = true;
     while (flag == true)
     {
-        solutionPath.push_back(solutionRecorder);
-        currentNumber += 5;
+        pusher(currentNumber, numbersAlreadyUsed, solutionRecorder, solutionPath);
+
+        // this block checks to see if the result is valid
         if (validResult(currentNumber, numbersAlreadyUsed))
         {
+            continue;
         }
-        else if (solutionRecorder <= 2)
+        // if it is not valid, it will undo the last operation, delete the previous result
+        // and try the next operation available
+        else if (solutionRecorder < 2)
         {
             retreader(numbersAlreadyUsed, solutionPath);
+            solutionRecorder += 1;
+        } 
+        // if sqrt is not valid, it will retread back two spaces, reset the operation to +5
+        // and resume checking again
+        else if (solutionRecorder >= 2)
+        {
+
         }
 
         else
