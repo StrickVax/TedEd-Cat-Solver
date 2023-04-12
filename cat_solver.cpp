@@ -20,7 +20,7 @@ bool alreadyUsedNumber(double, vector<int> &);
 void retreader(vector<int> &, vector<int> &);
 
 // function that actually records results and operations
-void pusher(double, vector<int> &, int, vector<int> &);
+void pusher(double &, vector<int> &, int, vector<int> &);
 
 int main()
 {
@@ -137,10 +137,26 @@ bool alreadyUsedNumber(double result, vector<int> &numbersAlreadyUsed)
     return false;
 }
 
-void pusher(double result, vector<int> &numbersAlreadyUsed, int operation, vector<int> &solutionPath)
+void pusher(double &result, vector<int> &numbersAlreadyUsed, int operation, vector<int> &solutionPath)
 {
-    numbersAlreadyUsed.push_back(result);
     solutionPath.push_back(operation);
+
+    switch (operation)
+    {
+    case 0:
+        result += 5;
+        break;
+
+    case 1:
+        result += 7;
+        break;
+
+    case 2:
+        result = sqrt(result);
+        break;
+    }
+
+    numbersAlreadyUsed.push_back(result);
 }
 
 void retreader(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
