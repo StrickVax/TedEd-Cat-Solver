@@ -68,8 +68,8 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         {
             retreader(currentNumber, numbersAlreadyUsed, solutionPath);
             retreader(currentNumber, numbersAlreadyUsed, solutionPath);
-            solutionRecorder = 0;
-            cycles = 1;
+            solutionRecorder = 1;
+            cycles += 1;
         }
 
         else if ((solutionPath.size() == 0) && (cycles != 0))
@@ -94,8 +94,6 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
     {
         return false;
     }
-    // records the fresh number
-    numbersAlreadyUsed.push_back(result);
     return true;
 }
 
