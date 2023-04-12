@@ -54,7 +54,6 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         // this block checks to see if the result is valid
         if (validResult(currentNumber, numbersAlreadyUsed))
         {
-            cout << " UH ";
         }
         // if it is not valid, it will undo the last operation, delete the previous result
         // and try the next operation available
@@ -152,7 +151,10 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
             // repeat if it finds it [twice]
             numbersAlreadyUsed.erase(numbersAlreadyUsed.begin() + i);
         }
+    }
 
+    for (int i = 0; i < numbersAlreadyUsed.size(); i++)
+    {
         if (result == numbersAlreadyUsed[i])
         {
             return true;
