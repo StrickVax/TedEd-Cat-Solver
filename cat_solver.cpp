@@ -37,11 +37,8 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     vector<int> numbersAlreadyUsed;
 
     // the operation is recorded by a 0/1/2, which this variable does
-    // the operation is recorded by a 0/1/2, which this variable does
     int solutionRecorder = 0;
 
-    // The flag becomes false when the program has gone through every possible intro
-    // without a valid path
     // The flag becomes false when the program has gone through every possible intro
     // without a valid path
     bool flag = true;
@@ -54,7 +51,6 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         }
         else if (solutionRecorder <= 2)
         {
-            retreader(numbersAlreadyUsed, solutionPath);
             retreader(numbersAlreadyUsed, solutionPath);
         }
 
@@ -132,19 +128,14 @@ bool alreadyUsedNumber(double result, vector<int> &numbersAlreadyUsed)
         if (result == numbersAlreadyUsed[i])
         {
             return true;
-            return true;
         }
     }
 
     return false;
-    return false;
 }
 
 void retreader(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
-void retreader(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
 {
-    numbersAlreadyUsed.pop_back();
-    solutionPath.pop_back();
     numbersAlreadyUsed.pop_back();
     solutionPath.pop_back();
 }
