@@ -36,9 +36,11 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     double currentNumber = 0;
     vector<int> numbersAlreadyUsed;
 
-    // the input is recorded by a 0/1/2, which this variable does
+    // the operation is recorded by a 0/1/2, which this variable does
     int solutionRecorder = 0;
 
+    // The flag becomes false when the program has gone through every possible intro
+    // without a valid path
     bool flag = true;
     while (flag == true)
     {
@@ -49,7 +51,7 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         }
         else if (solutionRecorder <= 2)
         {
-            solutionRecorder += 1;
+            retreader(numbersAlreadyUsed, solutionPath);
         }
 
         else
@@ -63,9 +65,7 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
 
 bool validResult(double result, vector<int> &numbersAlreadyUsed)
 {
-    // weird
-    // It will kill validResult if it [alreadyUsed] is T R U E
-    if (!alreadyUsedNumber(result, numbersAlreadyUsed))
+    if (alreadyUsedNumber(result, numbersAlreadyUsed))
     {
         return false;
     }
@@ -127,14 +127,15 @@ bool alreadyUsedNumber(double result, vector<int> &numbersAlreadyUsed)
         // Maybe sort numbers at one point? Especially if the number of tries gets [ big ]
         if (result == numbersAlreadyUsed[i])
         {
-            return false;
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
-void retreader(vector<int> &PLACEHOLDER)
+void retreader(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
 {
-    
+    numbersAlreadyUsed.pop_back();
+    solutionPath.pop_back();
 }
