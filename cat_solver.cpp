@@ -19,9 +19,9 @@ bool alreadyUsedNumber(double, vector<int> &);
 int main()
 {
     vector<int> numbersNeeded{2, 10, 14};
-    vector<int> solutionPath{0,0,0,0,0,2};
+    vector<int> solutionPath{};
 
-    // Solver(numbersNeeded, solutionPath);
+    Solver(numbersNeeded, solutionPath);
 
     solutionPrinter(solutionPath);
 
@@ -43,23 +43,29 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         currentNumber += 5;
         if (validResult(currentNumber, numbersAlreadyUsed))
         {
+            cout << "uh";
         }
     }
 }
 
 bool validResult(double result, vector<int> &numbersAlreadyUsed)
 {
-    // Checks to see if other two conditions are still being satisfied
-    if ((result <= 60) || ((int)result == result))
+    // weird
+    // It will kill validResult if it [alreadyUsed] is T R U E 
+    if (!alreadyUsedNumber(result, numbersAlreadyUsed))
     {
         return false;
     }
-    else
+
+    // Checks to see if other two conditions are still being satisfied
+    // If result is BIGGER than 60, OR if result ISN'T integer
+    if ((result >= 60) || !((int)result == result))
     {
+        return false;
+    }
         // records the fresh number
         numbersAlreadyUsed.push_back(result);
         return true;
-    }
 }
 
 bool alreadyUsedNumber(double result, vector<int> &numbersAlreadyUsed)
@@ -95,8 +101,8 @@ void solutionPrinter(vector<int> &orderOfOperations)
         case 0:
             currentNumber += 5;
             break;
-        
-         case 1:
+
+        case 1:
             currentNumber += 7;
             break;
 
