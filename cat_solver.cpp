@@ -13,12 +13,15 @@ void solutionPrinter(vector<int> &);
 // Tests to see if the current number is valid
 bool validResult(double, vector<int> &);
 
+// Checks to see if the number has already been used before
+bool alreadyUsedNumber(double, vector<int> &);
+
 int main()
 {
     vector<int> numbersNeeded{2, 10, 14};
-    vector<int> solutionPath{0, 0, 1, 0};
+    vector<int> solutionPath{};
 
-    // Solver(numbersNeeded, solutionPath);
+    Solver(numbersNeeded, solutionPath);
 
     solutionPrinter(solutionPath);
 
@@ -38,11 +41,28 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     {
         solutionPath.push_back(0);
         currentNumber += 5;
-        validResult(currentNumber, numbersAlreadyUsed);
+        if (validResult(currentNumber, numbersAlreadyUsed))
+        {
+        }
     }
 }
 
 bool validResult(double result, vector<int> &numbersAlreadyUsed)
+{
+    // Checks to see if other two conditions are still being satisfied
+    if ((result <= 60) || ((int)result == result))
+    {
+        return false;
+    }
+    else
+    {
+        // records the fresh number
+        numbersAlreadyUsed.push_back(result);
+        return true;
+    }
+}
+
+bool alreadyUsedNumber(double result, vector<int> &numbersAlreadyUsed)
 {
     // TODO: need to make sure number hasn't been repeated
     for (int i = 0; i < numbersAlreadyUsed.size(); i++)
@@ -54,16 +74,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
         }
     }
 
-    // Checks to see if other two conditions are still being satisfied
-    if ((result <= 60) || ((int)result == result))
-    {
-        return false;
-    }
-    else
-    {
-        numbersAlreadyUsed.push_back(result);
-        return true;
-    }
+    return true;
 }
 
 void solutionPrinter(vector<int> &orderOfOperations)
