@@ -55,24 +55,15 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         if (validResult(currentNumber, numbersAlreadyUsed))
         {
         }
-        // if it is not valid, it will undo the last operation, delete the previous result
-        // and try the next operation available
-        else if (solutionRecorder < 2)
-        {
-            retreader(currentNumber, numbersAlreadyUsed, solutionPath);
-            solutionRecorder += 1;
-        }
         // if sqrt is not valid, it will retread back two spaces, reset the operation to +5
         // and resume checking again
-        else if (solutionRecorder >= 2)
+        else
         {
             retreader(currentNumber, numbersAlreadyUsed, solutionPath);
-            retreader(currentNumber, numbersAlreadyUsed, solutionPath);
-            solutionRecorder = 1;
             cycles += 1;
         }
 
-        else if ((solutionPath.size() == 0) && (cycles != 0))
+        if ((solutionPath.size() == 0) && (cycles != 0))
         {
             // The flag becomes false when the program has gone through every possible intro
             // without a valid path
@@ -190,16 +181,18 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
     {
     case 0:
         result -= 5;
+        solutionPath.back() = 1;
         break;
 
     case 1:
         result -= 7;
+        solutionPath.back() = 2;
         break;
 
     case 2:
         result = (result * result);
+        solutionPath.pop_back();
         break;
     }
     numbersAlreadyUsed.pop_back();
-    solutionPath.pop_back();
 }
