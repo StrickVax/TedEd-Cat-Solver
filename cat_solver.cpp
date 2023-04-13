@@ -22,6 +22,10 @@ void retreader(double &, vector<int> &, vector<int> &);
 // function that actually records results and operations
 void pusher(double &, vector<int> &, int &, vector<int> &);
 
+// function that sees if it should increase the operation, or add a new operation
+// ie: | 0 -> 1 -> [0] | OR | 0 -> 2 |
+bool repeat(vector<int> &, vector<int> &);
+
 int main()
 {
     vector<int> numbersNeeded{2, 10, 14};
@@ -155,15 +159,9 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
 
 void pusher(double &result, vector<int> &numbersAlreadyUsed, int &operation, vector<int> &solutionPath)
 {
-    if (solutionPath.back() != 0)
-    {
-        operation = solutionPath.back();
-    }
 
-    else
-    {
-        solutionPath.push_back(operation);
-    }
+    // operation = solutionPath.back();
+    // solutionPath.push_back(operation);
 
     switch (solutionPath.back())
     {
@@ -220,4 +218,13 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
 
         break;
     }
+}
+
+bool repeat(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
+{
+    if (numbersAlreadyUsed.size() == solutionPath.size())
+    {
+        return false;
+    }
+    return true;
 }
