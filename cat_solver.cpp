@@ -26,6 +26,9 @@ void pusher(double &, vector<int> &, int &, vector<int> &);
 // ie: | 0 -> 1 -> [0] | OR | 0 -> 2 |
 bool repeat(vector<int> &, vector<int> &);
 
+// function that tells whether the solution has been met
+bool validSolution(vector<int>, vector<int>);
+
 int main()
 {
     vector<int> numbersNeeded{2, 10, 14};
@@ -227,9 +230,31 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
 
 bool repeat(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
 {
+    // if the two vectors are the same size, this implies that it needs a new operation node
     if (numbersAlreadyUsed.size() == solutionPath.size())
     {
         return true;
     }
+    return false;
+}
+
+bool validSolution(vector<int> numbersNeeded, vector<int> numbersAlreadyUsed)
+{
+    // loop checks through every number used, looking to see if an instance
+    // of the required number appears. If all of them appear, this is a valid solution
+    for (int i = 0, j = 0; (i < numbersAlreadyUsed.size() && j < numbersNeeded.size()); i++)
+    {
+        if (numbersNeeded[j] == numbersAlreadyUsed[i])
+        {
+            j += 1;
+        }
+
+        // all needed numbers were found
+        if (j == numbersNeeded.size())
+        {
+            return true;
+        }
+    }
+
     return false;
 }
