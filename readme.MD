@@ -45,7 +45,7 @@ If it still breaks the rules, it will go back two elements, and replace the curr
 
 ## Task List:
 
-- [ ] Recreate original problem.
+- [x] Recreate original problem.
 - [ ] Be able to tell whether a problem is solvable.
 - [ ] Be able to attempt the problem using different operations.
 - [ ] Be able to generate original problems.

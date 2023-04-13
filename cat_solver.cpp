@@ -69,6 +69,11 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
             cycles += 1;
         }
 
+        if (validSolution(numbersNeeded, numbersAlreadyUsed))
+        {
+            break;
+        }
+
         if ((solutionPath.size() == 1) && (cycles != 0))
         {
             // The flag becomes false when the program has gone through every possible intro
@@ -87,7 +92,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
 
     // Checks to see if other two conditions are still being satisfied
     // If result is BIGGER than 60, OR if result ISN'T integer
-    if ((result >= 20) || !((int)result == result))
+    if ((result >= 60) || !((int)result == result))
     {
         return false;
     }
@@ -146,6 +151,7 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
             // So to compromise, I have it delete that instance, and have it return with a
             // repeat if it finds it [twice]
             numbersAlreadyUsed.erase(numbersAlreadyUsed.begin() + i);
+            break;
         }
     }
 
