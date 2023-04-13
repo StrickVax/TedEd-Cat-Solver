@@ -25,7 +25,7 @@ void pusher(double &, vector<int> &, int, vector<int> &);
 int main()
 {
     vector<int> numbersNeeded{2, 10, 14};
-    vector<int> solutionPath{};
+    vector<int> solutionPath{0};
 
     Solver(numbersNeeded, solutionPath);
 
@@ -49,11 +49,10 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     bool flag = true;
     while (flag == true)
     {
-        pusher(currentNumber, numbersAlreadyUsed, solutionRecorder, solutionPath);
-
         // this block checks to see if the result is valid
         if (validResult(currentNumber, numbersAlreadyUsed))
         {
+            pusher(currentNumber, numbersAlreadyUsed, solutionRecorder, solutionPath);
         }
         // if sqrt is not valid, it will retread back two spaces, reset the operation to +5
         // and resume checking again
@@ -85,6 +84,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
     {
         return false;
     }
+
     return true;
 }
 
@@ -155,9 +155,7 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
 
 void pusher(double &result, vector<int> &numbersAlreadyUsed, int operation, vector<int> &solutionPath)
 {
-    solutionPath.push_back(operation);
-
-    switch (operation)
+    switch (solutionPath.back())
     {
     case 0:
         result += 5;
@@ -180,19 +178,34 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
     switch (solutionPath.back())
     {
     case 0:
-        result -= 5;
+        result = numbersAlreadyUsed.at(numbersAlreadyUsed.size() - 1);
+        numbersAlreadyUsed.pop_back();
+        solutionPath.pop_back();
         solutionPath.back() = 1;
         break;
 
     case 1:
-        result -= 7;
+        result = numbersAlreadyUsed.at(numbersAlreadyUsed.size() - 1);
+        numbersAlreadyUsed.pop_back();
+        solutionPath.pop_back();
         solutionPath.back() = 2;
         break;
 
     case 2:
         result = (result * result);
-        solutionPath.pop_back();
+
+        // this chunk of code should only execute to clear away a ton of square roots
+        // ...0, 2, 2, 2 -> ...1
+        while (solutionPath.back() == 2 && solutionPath.size() > 0)
+        {
+            solutionPath.pop_back();
+            numbersAlreadyUsed.pop_back();
+        }
+
+        if (solutionPath.back() < 2)
+        {
+            solutionPath.back() += 1;
+        }
         break;
     }
-    numbersAlreadyUsed.pop_back();
 }
