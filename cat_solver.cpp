@@ -20,7 +20,7 @@ bool alreadyUsedNumber(double, vector<int>);
 void retreader(double &, vector<int> &, vector<int> &);
 
 // function that actually records results and operations
-void pusher(double &, vector<int> &, int, vector<int> &);
+void pusher(double &, vector<int> &, int &, vector<int> &);
 
 int main()
 {
@@ -80,7 +80,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
 
     // Checks to see if other two conditions are still being satisfied
     // If result is BIGGER than 60, OR if result ISN'T integer
-    if ((result >= 60) || !((int)result == result))
+    if ((result >= 20) || !((int)result == result))
     {
         return false;
     }
@@ -153,8 +153,18 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
     return false;
 }
 
-void pusher(double &result, vector<int> &numbersAlreadyUsed, int operation, vector<int> &solutionPath)
+void pusher(double &result, vector<int> &numbersAlreadyUsed, int &operation, vector<int> &solutionPath)
 {
+    if (solutionPath.back() != 0)
+    {
+        operation = solutionPath.back();
+    }
+
+    else
+    {
+        solutionPath.push_back(operation);
+    }
+
     switch (solutionPath.back())
     {
     case 0:
@@ -178,21 +188,21 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
     switch (solutionPath.back())
     {
     case 0:
-        result = numbersAlreadyUsed.at(numbersAlreadyUsed.size() - 1);
+        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
         numbersAlreadyUsed.pop_back();
         solutionPath.pop_back();
         solutionPath.back() = 1;
         break;
 
     case 1:
-        result = numbersAlreadyUsed.at(numbersAlreadyUsed.size() - 1);
+        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
         numbersAlreadyUsed.pop_back();
         solutionPath.pop_back();
         solutionPath.back() = 2;
         break;
 
     case 2:
-        result = (result * result);
+        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
 
         // this chunk of code should only execute to clear away a ton of square roots
         // ...0, 2, 2, 2 -> ...1
