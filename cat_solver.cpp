@@ -62,7 +62,7 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
             cycles += 1;
         }
 
-        if ((solutionPath.size() == 0) && (cycles != 0))
+        if ((solutionPath.size() == 1) && (cycles != 0))
         {
             // The flag becomes false when the program has gone through every possible intro
             // without a valid path
@@ -188,21 +188,18 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
     switch (solutionPath.back())
     {
     case 0:
-        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
+        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 2];
         numbersAlreadyUsed.pop_back();
-        solutionPath.pop_back();
         solutionPath.back() = 1;
         break;
 
     case 1:
-        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
+        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 2];
         numbersAlreadyUsed.pop_back();
-        solutionPath.pop_back();
         solutionPath.back() = 2;
         break;
 
     case 2:
-        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
 
         // this chunk of code should only execute to clear away a ton of square roots
         // ...0, 2, 2, 2 -> ...1
@@ -212,10 +209,15 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
             numbersAlreadyUsed.pop_back();
         }
 
+        numbersAlreadyUsed.pop_back();
+
         if (solutionPath.back() < 2)
         {
             solutionPath.back() += 1;
         }
+
+        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
+
         break;
     }
 }
