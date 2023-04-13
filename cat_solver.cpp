@@ -163,6 +163,11 @@ void pusher(double &result, vector<int> &numbersAlreadyUsed, int &operation, vec
     // operation = solutionPath.back();
     // solutionPath.push_back(operation);
 
+    if (repeat(numbersAlreadyUsed, solutionPath))
+    {
+        solutionPath.push_back(0);
+    }
+
     switch (solutionPath.back())
     {
     case 0:
@@ -224,7 +229,7 @@ bool repeat(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
 {
     if (numbersAlreadyUsed.size() == solutionPath.size())
     {
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
