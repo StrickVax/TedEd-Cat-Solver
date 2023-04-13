@@ -8,7 +8,7 @@ using namespace std;
 void Solver(vector<int>, vector<int> &);
 
 // Prints out the numbers used to get to the results
-void solutionPrinter(vector<int> &);
+void solutionPrinter(vector<int> &, vector<int>);
 
 // Tests to see if the current number is valid
 bool validResult(double, vector<int> &);
@@ -36,7 +36,7 @@ int main()
 
     Solver(numbersNeeded, solutionPath);
 
-    solutionPrinter(solutionPath);
+    solutionPrinter(solutionPath, numbersNeeded);
 
     return 0;
 }
@@ -100,7 +100,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
     return true;
 }
 
-void solutionPrinter(vector<int> &orderOfOperations)
+void solutionPrinter(vector<int> &orderOfOperations, vector<int> numbersNeeded)
 {
     // if the program was unable to find a solution with the given parameters
     if (orderOfOperations.size() == 0)
@@ -109,6 +109,8 @@ void solutionPrinter(vector<int> &orderOfOperations)
     }
 
     int currentNumber = 0;
+
+    int j = 0;
 
     // program prints out operations
     for (int i = 0; i < orderOfOperations.size(); i++)
@@ -128,7 +130,17 @@ void solutionPrinter(vector<int> &orderOfOperations)
             break;
         }
 
-        cout << currentNumber;
+        // highlights requested number
+        if (currentNumber == numbersNeeded[j])
+        {
+            cout << "[" << currentNumber << "]";
+            j += 1;
+        }
+
+        else
+        {
+            cout << currentNumber;
+        }
 
         // adds an arrow pointing to the next number, if it's not the last one in the list
         if (i != orderOfOperations.size() - 1)
