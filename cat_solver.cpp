@@ -34,7 +34,7 @@ bool validSolution(vector<int>, vector<int>);
 
 int main()
 {
-    vector<int> numbersNeeded{5, 10, 17};
+    vector<int> numbersNeeded{7, 19};
     vector<int> solutionPath{0};
 
     Solver(numbersNeeded, solutionPath);
@@ -213,19 +213,20 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
             numbersAlreadyUsed.pop_back();
         }
 
-        numbersAlreadyUsed.pop_back();
-
         if (solutionPath.back() < 2)
         {
             solutionPath.back() += 1;
         }
 
-        if (numbersAlreadyUsed.size() > 1)
+        // Changes starting operation from 5 to 7, if no operation that starts with 5 is valid
+        if (numbersAlreadyUsed.size() > 0)
         {
+            numbersAlreadyUsed.pop_back();
             result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
         }
         else
         {
+            numbersAlreadyUsed[0] = 0;
             result = 0;
         }
 
