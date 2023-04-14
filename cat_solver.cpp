@@ -4,30 +4,26 @@
 
 using namespace std;
 
-// Main function that tests to see if a number can be reached with operations
+// Tries to reach requested numbers
 void Solver(vector<int>, vector<int> &);
-
-// Prints out the numbers used to get to the results
-void solutionPrinter(vector<int> &, vector<int>);
 
 // Tests to see if the current number is valid
 bool validResult(double, vector<int> &);
 
-// Checks to see if the number has already been used before
+// Checks to see if the number has been used before
 bool alreadyUsedNumber(double, vector<int>);
+
+// function that records results and operations
+void pusher(double &, vector<int> &, int &, vector<int> &);
 
 // responsible for undoing results and operations
 void retreader(double &, vector<int> &, vector<int> &);
 
-// function that actually records results and operations
-void pusher(double &, vector<int> &, int &, vector<int> &);
-
-// function that sees if it should increase the operation, or add a new operation
-// ie: | 0 -> 1 -> [0] | OR | 0 -> 2 |
-bool repeat(vector<int> &, vector<int> &);
-
-// function that tells whether the solution has been met
+// checks whether the solution has been found
 bool validSolution(vector<int>, vector<int>);
+
+// Prints out the numbers used to get to the results
+void solutionPrinter(vector<int> &, vector<int>);
 
 int main()
 {
@@ -51,18 +47,16 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
 
     int cycles = 0;
 
-    // The flag becomes false when the program has gone through every possible intro
-    // without a valid path
+    // Loop ends when it cannot find a valid solution
     bool flag = true;
     while (flag == true)
     {
-        // this block checks to see if the result is valid
+        // checks to see if the result is valid
         if (validResult(currentNumber, numbersAlreadyUsed))
         {
             pusher(currentNumber, numbersAlreadyUsed, solutionRecorder, solutionPath);
         }
-        // if sqrt is not valid, it will retread back two spaces, reset the operation to +5
-        // and resume checking again
+        // if not valid, program will undo previous push and attempt next operation
         else
         {
             retreader(currentNumber, numbersAlreadyUsed, solutionPath);
@@ -74,10 +68,9 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
             break;
         }
 
+        // no solution found; ends the loop
         if ((solutionPath.size() == 1) && (cycles != 0))
         {
-            // The flag becomes false when the program has gone through every possible intro
-            // without a valid path
             flag = false;
         }
     }
@@ -90,8 +83,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
         return false;
     }
 
-    // Checks to see if other two conditions are still being satisfied
-    // If result is BIGGER than 60, OR if result ISN'T integer
+    // Also checks to see if other two conditions are still being satisfied
     if ((result >= 60) || !((int)result == result))
     {
         return false;
@@ -100,68 +92,17 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed)
     return true;
 }
 
-void solutionPrinter(vector<int> &orderOfOperations, vector<int> numbersNeeded)
-{
-    // if the program was unable to find a solution with the given parameters
-    if (orderOfOperations.size() == 0)
-    {
-        cout << "No solution exists";
-    }
-
-    int currentNumber = 0;
-
-    int j = 0;
-
-    // program prints out operations
-    for (int i = 0; i < orderOfOperations.size(); i++)
-    {
-        switch (orderOfOperations[i])
-        {
-        case 0:
-            currentNumber += 5;
-            break;
-
-        case 1:
-            currentNumber += 7;
-            break;
-
-        case 2:
-            currentNumber = sqrt(currentNumber);
-            break;
-        }
-
-        // highlights requested number
-        if (currentNumber == numbersNeeded[j])
-        {
-            cout << "[" << currentNumber << "]";
-            j += 1;
-        }
-
-        else
-        {
-            cout << currentNumber;
-        }
-
-        // adds an arrow pointing to the next number, if it's not the last one in the list
-        if (i != orderOfOperations.size() - 1)
-        {
-            cout << " -> ";
-        }
-    }
-}
-
 bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
 {
+    // It will mark the number it [ just ] got as already-used
+    // So I have it delete that instance, and have it return with a
+    // repeat if it finds it again
 
-    // TODO: need to make sure number hasn't been repeated
     for (int i = 0; i < numbersAlreadyUsed.size(); i++)
     {
         // Maybe sort numbers at one point? Especially if the number of tries gets [ big ]
         if (result == numbersAlreadyUsed[i])
         {
-            // there's an issue where it will mark the number it [ just ] got as already-used
-            // So to compromise, I have it delete that instance, and have it return with a
-            // repeat if it finds it [twice]
             numbersAlreadyUsed.erase(numbersAlreadyUsed.begin() + i);
             break;
         }
@@ -180,11 +121,8 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
 
 void pusher(double &result, vector<int> &numbersAlreadyUsed, int &operation, vector<int> &solutionPath)
 {
-
-    // operation = solutionPath.back();
-    // solutionPath.push_back(operation);
-
-    if (repeat(numbersAlreadyUsed, solutionPath))
+    // if the two vectors are the same size, solutionPath needs a new operation node
+    if (numbersAlreadyUsed.size() == solutionPath.size())
     {
         solutionPath.push_back(0);
     }
@@ -225,8 +163,8 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
 
     case 2:
 
-        // this chunk of code should only execute to clear away a ton of square roots
-        // ...0, 2, 2, 2 -> ...1
+        // while-loop is to clear away a ton of [2]s
+        // | ...0, 2, 2, 2 | -> | ...1 | 
         while (solutionPath.back() == 2 && solutionPath.size() > 0)
         {
             solutionPath.pop_back();
@@ -246,20 +184,9 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
     }
 }
 
-bool repeat(vector<int> &numbersAlreadyUsed, vector<int> &solutionPath)
-{
-    // if the two vectors are the same size, this implies that it needs a new operation node
-    if (numbersAlreadyUsed.size() == solutionPath.size())
-    {
-        return true;
-    }
-    return false;
-}
-
 bool validSolution(vector<int> numbersNeeded, vector<int> numbersAlreadyUsed)
 {
-    // loop checks through every number used, looking to see if an instance
-    // of the required number appears. If all of them appear, this is a valid solution
+    // loop through every number used, looking to see if all required numbers appear
     for (int i = 0, j = 0; (i < numbersAlreadyUsed.size() && j < numbersNeeded.size()); i++)
     {
         if (numbersNeeded[j] == numbersAlreadyUsed[i])
@@ -275,4 +202,55 @@ bool validSolution(vector<int> numbersNeeded, vector<int> numbersAlreadyUsed)
     }
 
     return false;
+}
+
+void solutionPrinter(vector<int> &orderOfOperations, vector<int> numbersNeeded)
+{
+    // if the program was unable to find a solution with the given parameters
+    if (orderOfOperations.size() == 0)
+    {
+        cout << "No solution exists";
+    }
+
+    // TODO: Record results found, instead of recreating the results with the solutionPath
+    int currentNumber = 0;
+
+    int j = 0;
+
+    // program prints out operations
+    for (int i = 0; i < orderOfOperations.size(); i++)
+    {
+        switch (orderOfOperations[i])
+        {
+        case 0:
+            currentNumber += 5;
+            break;
+
+        case 1:
+            currentNumber += 7;
+            break;
+
+        case 2:
+            currentNumber = sqrt(currentNumber);
+            break;
+        }
+
+        // highlights requested number
+        if (currentNumber == numbersNeeded[j])
+        {
+            cout << "[" << currentNumber << "]";
+            j += 1;
+        }
+
+        else
+        {
+            cout << currentNumber;
+        }
+
+        // adds an arrow pointing to the next number, if it's not the last one in the list
+        if (i != orderOfOperations.size() - 1)
+        {
+            cout << " -> ";
+        }
+    }
 }
