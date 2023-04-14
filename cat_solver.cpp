@@ -8,7 +8,7 @@ using namespace std;
 void Solver(vector<int>, vector<int> &);
 
 // Prints out the numbers used to get to the results
-void solutionPrinter(vector<int> &);
+void solutionPrinter(vector<int> &, vector<int>);
 
 // Tests to see if the current number is valid
 bool validResult(double, vector<int> &, vector<int>);
@@ -25,9 +25,6 @@ void pusher(double &, vector<int> &, int &, vector<int> &);
 // responsible for undoing results and operations
 void retreader(double &, vector<int> &, vector<int> &);
 
-// function that actually records results and operations
-void pusher(double &, vector<int> &, int &, vector<int> &);
-
 // function that sees if it should increase the operation, or add a new operation
 // ie: | 0 -> 1 -> [0] | OR | 0 -> 2 |
 bool repeat(vector<int> &, vector<int> &);
@@ -37,12 +34,12 @@ bool validSolution(vector<int>, vector<int>);
 
 int main()
 {
-    vector<int> numbersNeeded{10, 5};
+    vector<int> numbersNeeded{7, 12, 17};
     vector<int> solutionPath{0};
 
     Solver(numbersNeeded, solutionPath);
 
-    solutionPrinter(solutionPath);
+    solutionPrinter(solutionPath, numbersNeeded);
 
     return 0;
 }
@@ -112,44 +109,6 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed, vector<int> sol
     }
 
     return true;
-}
-
-void solutionPrinter(vector<int> &orderOfOperations)
-{
-    // if the program was unable to find a solution with the given parameters
-    if (orderOfOperations.size() == 0)
-    {
-        cout << "No solution exists";
-    }
-
-    int currentNumber = 0;
-
-    // program prints out operations
-    for (int i = 0; i < orderOfOperations.size(); i++)
-    {
-        switch (orderOfOperations[i])
-        {
-        case 0:
-            currentNumber += 5;
-            break;
-
-        case 1:
-            currentNumber += 7;
-            break;
-
-        case 2:
-            currentNumber = sqrt(currentNumber);
-            break;
-        }
-
-        cout << currentNumber;
-
-        // adds an arrow pointing to the next number, if it's not the last one in the list
-        if (i != orderOfOperations.size() - 1)
-        {
-            cout << " -> ";
-        }
-    }
 }
 
 bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
