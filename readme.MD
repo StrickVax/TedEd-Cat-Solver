@@ -46,6 +46,7 @@ If it still breaks the rules, it will go back two elements, and replace the curr
 ## Task List:
 
 - [x] Recreate original problem.
+  - [ ] (Optional) Introduce original contraint (An operation cannot be repeated 3 times in a row)
 - [ ] Be able to tell whether a problem is solvable.
 - [ ] Be able to attempt the problem using different operations.
 - [ ] Be able to generate original problems.
