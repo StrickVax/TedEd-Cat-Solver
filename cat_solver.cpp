@@ -34,7 +34,7 @@ bool validSolution(vector<int>, vector<int>);
 
 int main()
 {
-    vector<int> numbersNeeded{7, 12, 17};
+    vector<int> numbersNeeded{5,10,17};
     vector<int> solutionPath{0};
 
     Solver(numbersNeeded, solutionPath);
@@ -142,7 +142,7 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
 bool repeatedInARow(vector<int> solutionPath)
 {
     const int MAX_IN_ROW = 3;
-    if (solutionPath.size() < MAX_IN_ROW)
+    if (solutionPath.size() <= MAX_IN_ROW)
     {
         return false;
     }
@@ -206,7 +206,7 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
     case 2:
 
         // while-loop is to clear away a ton of [2]s
-        // | ...0, 2, 2, 2 | -> | ...1 | 
+        // | ...0, 2, 2, 2 | -> | ...1 |
         while (solutionPath.back() == 2 && solutionPath.size() > 0)
         {
             solutionPath.pop_back();
@@ -267,9 +267,10 @@ bool validSolution(vector<int> numbersNeeded, vector<int> numbersAlreadyUsed)
 void solutionPrinter(vector<int> &orderOfOperations, vector<int> numbersNeeded)
 {
     // if the program was unable to find a solution with the given parameters
-    if (orderOfOperations.size() == 0)
+    if (orderOfOperations.size() == 1 && orderOfOperations[0] == 2)
     {
-        cout << "No solution exists";
+        cout << "No solution exists" << endl;
+        return;
     }
 
     // TODO: Record results found, instead of recreating the results with the solutionPath
