@@ -11,10 +11,16 @@ void Solver(vector<int>, vector<int> &);
 void solutionPrinter(vector<int> &);
 
 // Tests to see if the current number is valid
-bool validResult(double, vector<int> &);
+bool validResult(double, vector<int> &, vector<int>);
 
 // Checks to see if the number has already been used before
 bool alreadyUsedNumber(double, vector<int>);
+
+// checks to see if an operation ( +5/ +7 / sqrt(x) ) was repeated in a row
+bool repeatedInARow(vector<int>);
+
+// function that records results and operations
+void pusher(double &, vector<int> &, int &, vector<int> &);
 
 // responsible for undoing results and operations
 void retreader(double &, vector<int> &, vector<int> &);
@@ -31,7 +37,7 @@ bool validSolution(vector<int>, vector<int>);
 
 int main()
 {
-    vector<int> numbersNeeded{2, 10, 14};
+    vector<int> numbersNeeded{10, 5};
     vector<int> solutionPath{0};
 
     Solver(numbersNeeded, solutionPath);
@@ -49,15 +55,13 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     // the operation is recorded by a 0/1/2, which this variable does
     int solutionRecorder = 0;
 
-    int cycles = 0;
-
     // The flag becomes false when the program has gone through every possible intro
     // without a valid path
     bool flag = true;
     while (flag == true)
     {
-        // this block checks to see if the result is valid
-        if (validResult(currentNumber, numbersAlreadyUsed))
+        // checks to see if the result is valid
+        if (validResult(currentNumber, numbersAlreadyUsed, solutionPath))
         {
             pusher(currentNumber, numbersAlreadyUsed, solutionRecorder, solutionPath);
         }
@@ -66,7 +70,6 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         else
         {
             retreader(currentNumber, numbersAlreadyUsed, solutionPath);
-            cycles += 1;
         }
 
         if (validSolution(numbersNeeded, numbersAlreadyUsed))
@@ -74,7 +77,8 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
             break;
         }
 
-        if ((solutionPath.size() == 1) && (cycles != 0))
+        // no solution found; ends the loop
+        if ((solutionPath.size() == 1) && solutionPath[0] == 2)
         {
             // The flag becomes false when the program has gone through every possible intro
             // without a valid path
@@ -83,9 +87,19 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
     }
 }
 
-bool validResult(double result, vector<int> &numbersAlreadyUsed)
+bool validResult(double result, vector<int> &numbersAlreadyUsed, vector<int> solutionPath)
 {
     if (alreadyUsedNumber(result, numbersAlreadyUsed))
+    {
+        return false;
+    }
+
+    if (repeatedInARow(solutionPath))
+    {
+        return false;
+    }
+
+    if (repeatedInARow(solutionPath))
     {
         return false;
     }
@@ -166,6 +180,25 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
     return false;
 }
 
+bool repeatedInARow(vector<int> solutionPath)
+{
+    const int MAX_IN_ROW = 3;
+    if (solutionPath.size() < MAX_IN_ROW)
+    {
+        return false;
+    }
+
+    // TODO: Fix magic number
+    for (int i = 0; i < solutionPath.size() - 2; i++)
+    {
+        if (solutionPath[i] == solutionPath[i + 1])
+            if (solutionPath[i + 1] == solutionPath[i + 2])
+                return true;
+    }
+
+    return false;
+}
+
 void pusher(double &result, vector<int> &numbersAlreadyUsed, int &operation, vector<int> &solutionPath)
 {
 
@@ -213,8 +246,8 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
 
     case 2:
 
-        // this chunk of code should only execute to clear away a ton of square roots
-        // ...0, 2, 2, 2 -> ...1
+        // while-loop is to clear away a ton of [2]s
+        // | ...0, 2, 2, 2 | -> | ...1 | 
         while (solutionPath.back() == 2 && solutionPath.size() > 0)
         {
             solutionPath.pop_back();
@@ -228,7 +261,14 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
             solutionPath.back() += 1;
         }
 
-        result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
+        if (numbersAlreadyUsed.size() > 1)
+        {
+            result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
+        }
+        else
+        {
+            result = 0;
+        }
 
         break;
     }
@@ -263,4 +303,55 @@ bool validSolution(vector<int> numbersNeeded, vector<int> numbersAlreadyUsed)
     }
 
     return false;
+}
+
+void solutionPrinter(vector<int> &orderOfOperations, vector<int> numbersNeeded)
+{
+    // if the program was unable to find a solution with the given parameters
+    if (orderOfOperations.size() == 0)
+    {
+        cout << "No solution exists";
+    }
+
+    // TODO: Record results found, instead of recreating the results with the solutionPath
+    int currentNumber = 0;
+
+    int j = 0;
+
+    // program prints out operations
+    for (int i = 0; i < orderOfOperations.size(); i++)
+    {
+        switch (orderOfOperations[i])
+        {
+        case 0:
+            currentNumber += 5;
+            break;
+
+        case 1:
+            currentNumber += 7;
+            break;
+
+        case 2:
+            currentNumber = sqrt(currentNumber);
+            break;
+        }
+
+        // highlights requested number
+        if (currentNumber == numbersNeeded[j])
+        {
+            cout << "[" << currentNumber << "]";
+            j += 1;
+        }
+
+        else
+        {
+            cout << currentNumber;
+        }
+
+        // adds an arrow pointing to the next number, if it's not the last one in the list
+        if (i != orderOfOperations.size() - 1)
+        {
+            cout << " -> ";
+        }
+    }
 }
