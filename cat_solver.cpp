@@ -34,7 +34,7 @@ bool validSolution(vector<int>, vector<int>);
 
 int main()
 {
-    vector<int> numbersNeeded{5,10,17};
+    vector<int> numbersNeeded{5, 10, 17};
     vector<int> solutionPath{0};
 
     Solver(numbersNeeded, solutionPath);
@@ -142,7 +142,7 @@ bool alreadyUsedNumber(double result, vector<int> numbersAlreadyUsed)
 bool repeatedInARow(vector<int> solutionPath)
 {
     const int MAX_IN_ROW = 3;
-    if (solutionPath.size() <= MAX_IN_ROW)
+    if (solutionPath.size() < MAX_IN_ROW)
     {
         return false;
     }
