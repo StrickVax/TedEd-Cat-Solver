@@ -60,6 +60,7 @@ void Solver(vector<int> numbersNeeded, vector<int> &solutionPath)
         // checks to see if the result is valid
         if (validResult(currentNumber, numbersAlreadyUsed, solutionPath))
         {
+            // Pusher should be uneven; retreader even
             pusher(currentNumber, numbersAlreadyUsed, solutionRecorder, solutionPath);
         }
         // if sqrt is not valid, it will retread back two spaces, reset the operation to +5
@@ -103,7 +104,7 @@ bool validResult(double result, vector<int> &numbersAlreadyUsed, vector<int> sol
 
     // Checks to see if other two conditions are still being satisfied
     // If result is BIGGER than 60, OR if result ISN'T integer
-    if ((result >= 60) || !((int)result == result))
+    if ((result >= 40) || !((int)result == result))
     {
         return false;
     }
@@ -160,10 +161,6 @@ bool repeatedInARow(vector<int> solutionPath)
 
 void pusher(double &result, vector<int> &numbersAlreadyUsed, int &operation, vector<int> &solutionPath)
 {
-
-    // operation = solutionPath.back();
-    // solutionPath.push_back(operation);
-
     if (repeat(numbersAlreadyUsed, solutionPath))
     {
         solutionPath.push_back(0);
@@ -219,7 +216,7 @@ void retreader(double &result, vector<int> &numbersAlreadyUsed, vector<int> &sol
         }
 
         // Changes starting operation from 5 to 7, if no operation that starts with 5 is valid
-        if (numbersAlreadyUsed.size() > 0)
+        if (numbersAlreadyUsed.size() > 1)
         {
             numbersAlreadyUsed.pop_back();
             result = numbersAlreadyUsed[numbersAlreadyUsed.size() - 1];
